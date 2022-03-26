@@ -21,7 +21,6 @@ void reverse(int len, int *arr) {
     }
 }
 
-
 int partition(int p, int r, int *arr) {
     int x = arr[r];
     int i = p - 1;
@@ -319,12 +318,36 @@ int one_two(int *arr1, const int len1, int *arr2, const int len2, int *arr3){
     return counter;
 }
 
+void statistics(int *arr4, int len4){
+
+    int it = 0;
+    float stat;
+    quicksort(0, len4 - 1, arr4);
+
+    for (int i = 0; i < len4; ++i) {
+        int counter = 1;
+        for (int j = (it+1); j < len4; ++j) {
+            if (arr4[j] == arr4[it]){
+                counter += 1;
+            }
+        }
+        stat = ((float)counter/(float)len4)*(100);
+        if (it <= (len4-1)){
+            printf("Element %d pojawia się w %f procent całej tablicy. \n", arr4[it], stat);
+            it += counter;
+        }
+
+    }
+}
+
 int main() {
 
     int N1 = 15;
     int N2 = 15;
+    int N4 = 15;
     int t1[N1];
     int t2[N2];
+    int t4[N4];
     int t3[N1 + N2];
 
     srand48(time(NULL));
@@ -332,6 +355,7 @@ int main() {
     for (int i = 0; i < N1; ++i) {
         t1[i] = (int) lrand48() % 10 + 1;
         t2[i] = (int) lrand48() % 10 + 1;
+        t4[i] = ((int) lrand48() % 20 + 1) - 11;
     }
 
     printf("t1: ");
@@ -360,7 +384,7 @@ int main() {
     }
     printf("\n");
 
-
+    /*
     quicksort(0, N1 - 1, t1);
     quicksort(0, N2 - 1, t2);
     int result = one_two(t1, N1, t2, N2, t3);
@@ -368,6 +392,10 @@ int main() {
     printf("Trzecia tablica to: ");
     printarray(t3, result);
     printf("\n");
+     */
+
+    statistics(t4, N4);
+    printarray(t4, N4);
 
     return 0;
 }
