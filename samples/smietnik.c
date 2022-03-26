@@ -11,3 +11,7 @@ void fill(int size, int* matrix){
     }
 
 }
+
+printf("%d \t", *(arrn[i] + j*sizeof (int)));
+
+printf("\n");
