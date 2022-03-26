@@ -26,7 +26,7 @@ int main(){
 
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < m; ++j) {
-            *(arrn[i] + j*sizeof (int)) = (int) lrand48() % 10 + 1;
+            *(arrn[i] + j) = (int) lrand48() % 10 + 1;
             printf("%d \t", *(arrn[i] + j*sizeof (int)));
         }
         printf("\n");
