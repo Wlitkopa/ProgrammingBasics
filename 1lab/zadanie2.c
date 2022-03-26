@@ -23,13 +23,17 @@ int main(){
 
     delta = b*b - 4*a*c;
     if ((delta > 0) && (a != 0)) {
-        sol1 = (-b + sqrtf((float)delta)/2*a);
-        sol2 = (-b - sqrtf((float)delta)/2*a);
+        sol1 = ((-b + sqrtf((float)delta))/2*a);
+        sol2 = ((-b - sqrtf((float)delta))/2*a);
         printf("Pierwiastki równania to: %f oraz %f \n", sol1, sol2);
     }
     else if(delta == 0){
         sol1 = (-b/2*a);
         printf("Istnieje tylko jedno rozwiązanie: %f \n", sol1);
+    }
+    else{
+        complex int sol3 = (-b/2*a + sqrtf((float)(-delta))*I/2*a);
+        printf("Istnieją dwa rozwiązania w zbiorze liczb zespolonych: %d + %di oraz %d - %di \n", (int)creal(sol3), (int)cimag(sol3), (int)creal(sol3), (int)cimag(sol3) );
     }
 
     return 0;
