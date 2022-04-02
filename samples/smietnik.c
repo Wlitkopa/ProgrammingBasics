@@ -170,3 +170,8 @@ onecounter += 1;
 if(onecounter == 2){
 break;
 }
+
+
+
+
+&& (isalpha(toupper(*(text + i*sizeof (char)))) == 1)
