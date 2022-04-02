@@ -17,7 +17,7 @@ int main(){
     scanf("%d", &size);
     printf("\n");
 
-    matrix = (int*) malloc(size*size * sizeof(int));
+    matrix = (int*) malloc((size * size) * sizeof(int));
 
     /*
     for (int i = 0; i < (size*size); ++i) {
