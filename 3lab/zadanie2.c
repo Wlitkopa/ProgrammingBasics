@@ -5,12 +5,13 @@
 #include <string.h>
 
 char* getHexAscii(const char ch[]){
-    char *val = (char*) malloc(1*sizeof (char*));
+    char *val = (char*) malloc(2*sizeof (char));
     *val = (char)((int)*ch);
     return val;
 }
 
-char** getData(int *len, int *largest){
+
+char** getData(int* len, int* largest){
 
 
     char **first = (char**) malloc(3*sizeof (char*));
@@ -99,7 +100,7 @@ char* compress(char** first, const int* len, const int* largest){
                         printf("else if brackets or percentage\n");
                         comp[p++] = '%';
                         sprintf(&comp[p++], "%d", *(getHexAscii(&ch)));
-                        sprintf(&comp[p++], "%d", *(getHexAscii(&ch) + 1));
+                        sprintf(&comp[p++], "%d", (*(getHexAscii(&ch)))%10);
 
                         printf("Ascii: %d for char: %c\n", *(getHexAscii(&ch)), ch);
 //                        comp[p++] = *getHexAscii(&ch);
@@ -138,6 +139,55 @@ char* compress(char** first, const int* len, const int* largest){
 }
 
 
+char* decompress(char** first, const int* len, const int* largest){
+
+    char* decomp = (char*)malloc((*largest)*(*len)*sizeof (char));
+    int p = 0;
+    int g = 0;
+    int amount = 0;
+    int cnt = 0;
+    char* amt = (char*) malloc((*largest)*sizeof (char));
+    int k;
+//    int amt; // amount of characters
+
+
+
+    for (int i = 0; i < *len; ++i) {
+        if (first[i] != NULL){
+
+            for (int j = 0; j < strlen(first[i]); ++j) {
+
+                if (first[i][j+1] != '%'){
+                    decomp[p++] = first[i][j];
+                }
+                else if (first[i][j+1] == '('){
+                    k = j+2;
+                    while (first[i][k] != ')'){
+                        amt[g++] = first[i][k];
+                        cnt += 1;
+                        k += 1;
+                    }
+                    for (int l = (k-1); l > 0; l--) {
+                        amount += (int)(amt[l])*(10^cnt);
+                    }
+                    for (int l = 0; l < amount; ++l) {
+                        decomp[p++] = first[i][j];
+                    }
+                }
+
+
+
+
+            }
+
+
+        }
+
+    }
+
+
+}
+
 
 int main(){
 
@@ -156,5 +206,4 @@ int main(){
     //    }
     //    free(first);
 
-// 1. Naruszenie ochrony pamięci gdy wrzucam np dwa NULLe 2. Nie podaje ilości wystąpień znaków 3.
 }
