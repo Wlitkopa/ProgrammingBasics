@@ -59,7 +59,7 @@ int main(int argc, char **argv){
         printf("Składnia: macierzA.txt macierzB.txt macierzC.txt \n");
         return 1;
     }
-    
+
     FILE *matrixA = fopen(argv[1], "r");
     FILE *matrixB = fopen(argv[2], "r");
     FILE *matrixC = fopen(argv[3], "w");
@@ -94,7 +94,7 @@ int main(int argc, char **argv){
         }
         fprintf(matrixC, "\n");
     }
-    
+
 
     fclose(matrixA);
     fclose(matrixB);

@@ -156,7 +156,6 @@ int test(){
 }
 
 
-
 int main(int argc, char **argv){
 
 
@@ -178,7 +177,7 @@ int main(int argc, char **argv){
 
     switch (mode){
         case 1:
-            fill("macierzA.txt", "macierzB.txt", min, max);
+            fill("macierzA1.txt", "macierzB1.txt", min, max);
             break;
         case 2:
             test();
