@@ -130,6 +130,7 @@ int main(int argc, char **argv){
         FILE *file = fopen(argv[1], "r");
 
         for (int i = 0; i < colamount(file); ++i) { //żeby czytało do końca pliku lista.txt wystarczy dać tutaj: while (!feof (file))
+                                                    // https://www.ict.griffith.edu.au/teaching/2501ICT/archive/guide/ipc/flock.html
 
             char *filename1 = (char*)malloc(30*sizeof (char));
             char *filename2 = (char*)malloc(30*sizeof (char));
@@ -179,6 +180,7 @@ int main(int argc, char **argv){
             int com = colA;
 
 //    POMYSŁ Z FLAGĄ NIE JEST ZŁY, ALE TUTAJ JEST ŹLE ZAIMPLEMENTOWANY. FLAGA NIE POWINNA BYĆ ZMIENIONA DLA NASTĘPNEJ LINIJKI W PLIKU list.h
+//    Może warto wykorzystać iterację pętli przechodzącej przez wszystkie linijki w pliku lista.txt?
             if (*processflag == 1){
                 for (int p = 0; p < midA; ++p) {
                     for (int j = 0; j < midB; ++j) {
@@ -207,7 +209,7 @@ int main(int argc, char **argv){
                     }
                     fprintf(matrixC, "\n");
                 }
-                *processflag = 2;
+//                *processflag = 2;
             }
 
 
