@@ -74,3 +74,6 @@ void encryption_test(char *text, char *check) {
     free(ciphertext);
 }
 
+
+
+//  gcc zadanie1_tests.c encryption.c -o zadanie1_tests -lcunit && ./zadanie1_tests

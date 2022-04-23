@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <math.h>
+#include "task2.h"
 
 char* getHexAscii(const char ch[]) {
 //    char *val = (char*) malloc(2*sizeof (char));
@@ -222,13 +223,13 @@ char* decompress(char** first, const int* len, const int* largest){
                         int power = (int)pow(10, (exponent-1));
                         amount += temp2*power;
                         exponent -= 1;
-//                        printf("amount: %d\n", amount);
-//                        printf("power %d and temp2 %d\n", power, temp2);
+                        printf("amount: %d\n", amount);
+                        printf("power %d and temp2 %d\n", power, temp2);
                     }
                     for (int l = 0; l < amount; ++l) {
                         decomp[p++] = first[i][j];
-//                        printf("działa (\n");
-//                        printf("first[%d][%d]: %c\n", i, j, first[i][j]);
+                        printf("działa (\n");
+                        printf("first[%d][%d]: %c\n", i, j, first[i][j]);
                     }
                     j += 3 + cnt;
                     if (first[i][k+1] == '\n'){
@@ -240,7 +241,7 @@ char* decompress(char** first, const int* len, const int* largest){
                 }
 
                 else if (first[i][j] == '%'){
-//                    printf("działa else2\n");
+                    printf("działa else2\n");
                     k = j+4;
 
 //                    printf("first[%d][%d]: %c\n", i, j, first[i][j]);
@@ -301,8 +302,8 @@ char* decompress(char** first, const int* len, const int* largest){
 
                 }
 
-            free(amt);
-            printf("j: %d\n", j);
+                free(amt);
+                printf("j: %d\n", j);
 
             }
             decomp[p++] = '\n';
@@ -313,39 +314,4 @@ char* decompress(char** first, const int* len, const int* largest){
     }
 
     return decomp;
-}
-
-
-void freemem(char** first, const int* len){
-    for (int i = 0; i < *len; ++i) {
-        free(first[i]);
-    }
-    free(first);
-}
-
-
-int main(){
-
-    char choice[] = "+";
-    char* hex = getHexAscii(choice);
-    printf("Value of %s in hexASCII is %c%c\n", choice, *(hex + 1), *(hex));
-    free(hex);
-    int *len = (int*) malloc(sizeof (int));
-    int *largest = (int*) malloc(sizeof (int));
-    char **tekst;
-    char *compressed;
-    char *decompressed;
-    tekst = getData(len, largest);
-//    compressed = compress(tekst, len, largest);
-    decompressed = decompress(tekst, len, largest);
-//    printf("\nFinaly:\n%s", compressed);
-    printf("\n\nFinaly2:\n%s", decompressed);
-    printf("\n");
-
-    freemem(tekst, len);
-    free(len);
-    free(largest);
-    free(decompressed);
-
-
 }
