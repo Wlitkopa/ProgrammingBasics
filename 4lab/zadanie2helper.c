@@ -188,3 +188,5 @@ int main(int argc, char **argv){
 
 
 }
+
+//  gcc zadanie1_tests.c encryption.c -o zadanie1_tests -lcunit && ./zadanie1_tests

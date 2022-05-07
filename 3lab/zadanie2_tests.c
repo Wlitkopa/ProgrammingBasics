@@ -111,3 +111,5 @@ void compressed_test(char ch[], char *check) {
     CU_ASSERT_NSTRING_EQUAL(hexval, check, strlen(hexval));
     free(hexval);
 }
+
+//  gcc zadanie1_tests.c encryption.c -o zadanie1_tests -lcunit && ./zadanie1_tests
