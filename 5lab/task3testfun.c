@@ -5,31 +5,20 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
-#include <CUnit/Basic.h>
+#include "task3.h"
 
-enum Day {MON, TUE, WED, THU, FRI, SAT, SUN};
+void Term__init(struct Term* term, int hour, int minute, int duration, enum Day day) {
+    term->hour = hour;
+    term->minute = minute;
+    term->duration = duration;
+    term->day = day;
+}
 
-enum Action {DAY_EARLIER = 1, DAY_LATER = 2, TIME_EARLIER = 3, TIME_LATER = 4};
-
-struct Term {
-    int hour;
-    int minute;
-    int duration;
-    enum Day day;
-};
-
-struct Lesson {
-    char *subject;
-    struct Term *term;
-};
-
-struct TimeLimits{
-    int min_hour;
-    int max_hour;
-    int min_minutes;
-    int max_minutes;
-};
-
+struct Term* Term__create(int hour, int minute, int duration, enum Day day){
+    struct Term *term1 = malloc(sizeof (struct Term));
+    Term__init(term1, hour, minute, duration, day);
+    return term1;
+}
 
 void TimeLimits__init(struct TimeLimits *timelimits, int minh, int maxh, int minm, int maxm){
     timelimits->min_hour = minh;
@@ -78,27 +67,6 @@ char* Day__toString(enum Day day){
     return stringday;
 }
 
-void Term__init(struct Term* term, int hour, int minute, int duration, enum Day day) {
-    term->hour = hour;
-    term->minute = minute;
-    term->duration = duration;
-    term->day = day;
-}
-
-struct Term* Term__create(int hour, int minute, int duration, enum Day day){
-    struct Term *term1 = malloc(sizeof (struct Term));
-    Term__init(term1, hour, minute, duration, day);
-    return term1;
-}
-
-void Lesson__init(struct Lesson* lesson, int hour, int minute, int duration, enum Day day, char *subject) {
-    lesson->term->hour = hour;
-    lesson->term->minute = minute;
-    lesson->term->duration = duration;
-    lesson->term->day = day;
-    lesson->subject = subject;
-}
-
 struct Lesson* Lesson__create(int hour, int minute, int duration, enum Day day, char *subject){
     struct Lesson *lesson = malloc(sizeof (struct Lesson));
     lesson->subject = malloc(strlen(subject)*sizeof(*subject));
@@ -122,12 +90,7 @@ void Time__destroy(struct TimeLimits* timelimits){
 char* Term__toString(struct Term* term) {
     char *termin = malloc(50*sizeof (char));
     int ind = 0;
-    char *dayt = Day__toString(term->day);
 
-    for (int i = 0; i < strlen(dayt); ++i) {
-        termin[ind++] = dayt[i];
-    }
-    termin[ind++] = ' ';
     if (term->hour < 10){
         termin[ind++] = '0' + term->hour;
         termin[ind++] = ':';
@@ -203,7 +166,7 @@ bool Term__equals(struct Term* term1, struct Term *term2){
     }
 }
 
-struct Term* Term__endTerm(struct Term* term1, struct Term *term2){
+struct Term* Term__endTerm(struct Term* term1, struct Term *term2, enum Day day){
 
     int difference;
     int hours;
@@ -211,7 +174,7 @@ struct Term* Term__endTerm(struct Term* term1, struct Term *term2){
 
     if (Term__earlierThan(term1, term2)){
         difference = (60*term2->hour + term2->minute) - (60*term1->hour + term1->minute);
-//        printf("difference: %d\n", difference);
+        printf("difference: %d\n", difference);
         hours = (difference - (difference%60))/60;
         minutes = difference%60;
     }
@@ -220,17 +183,9 @@ struct Term* Term__endTerm(struct Term* term1, struct Term *term2){
         return NULL;
     }
 
-    struct Term *term3 = Term__create(term1->hour, term1->minute, difference, term1->day);
+    struct Term *term3 = Term__create(term1->hour, term1->minute, difference, day);
 
     return term3;
-}
-
-enum Day Day__nextDay(enum Day day){
-    return (day + 1)%7;
-}
-
-enum Day Day__prevDay(enum Day day){
-    return (day + 6)%7;
 }
 
 void Lesson__earlierDay(struct Lesson* lesson){
@@ -418,117 +373,3 @@ char *Lesson__toString(struct Lesson* lesson){
     return lekcja;
 
 }
-
-enum Action* parse(int rozmiarTablicy, char *tablica[]){
-
-    enum Action *action = malloc(rozmiarTablicy*sizeof (*action));
-    int j = 0;
-
-    for (int i = 0; i < rozmiarTablicy; ++i) {
-        if (!strcmp(tablica[i], "d-")){
-            action[j++] = DAY_EARLIER;
-        }
-        else if (!strcmp(tablica[i], "d+")){
-            action[j++] = DAY_LATER;
-        }
-        else if (!strcmp(tablica[i], "t-")){
-            action[j++] = TIME_EARLIER;
-        }
-        else if (!strcmp(tablica[i], "t+")){
-            action[j++] = TIME_LATER;
-        }
-    }
-    return action;
-}
-
-enum Day String__toDay(char *string){
-
-    if(!strcmp(string,"Mon"))
-        return MON;
-    if(!strcmp(string,"Tue"))
-        return TUE;
-    if(!strcmp(string,"Wed"))
-        return WED;
-    if(!strcmp(string,"Thu"))
-        return THU;
-    if(!strcmp(string,"Fri"))
-        return FRI;
-    if(!strcmp(string,"Sat"))
-        return SAT;
-    if(!strcmp(string,"Sun"))
-        return SUN;
-}
-
-int main(int argc, char **argv){
-
-
-    struct Term *term1 = Term__create(3, 00, 45, MON);
-    struct Term *term2 = Term__create(10, 30, 45, SUN);
-    struct TimeLimits *timelimitspt = Set__TimeLimits(8, 17, 0, 0);
-    struct TimeLimits *timelimitspnczw = Set__TimeLimits(8, 20, 0, 0);
-    struct Lesson *lesson1 = Lesson__create(12, 50, 90, WED, "Podstawy programowania");
-
-
-    if (Term__earlierThan(term1, term2)){
-        printf("term1 is earlier than term2\n");
-    }
-    if (Term__laterThan(term1, term2)){
-        printf("term1 is later than term2\n");
-    }
-    if (Term__equals(term1, term2)){
-        printf("terms are equal\n");
-    }
-
-    struct Term *term3 = Term__endTerm(term1, term2);
-
-    printf("Wynik1: %s\n", Term__toString(term1));
-    printf("Wynik2: %s\n", Term__toString(term2));
-    printf("Wynik3: %s\n", Term__toString(term3));
-
-    printf("Wynik4: %s\n", Lesson__toString(lesson1));
-    printf("\n");
-
-
-    enum Action *actions = parse(argc, argv);
-//    printf("%d\n", actions[0]);
-    enum Day userday = String__toDay(argv[1]);
-
-    for (int i = 0; i < (argc-2); ++i) {
-        if (actions[i] == 1){
-            printf("Dzień w tył\n");
-            Lesson__earlierDay(lesson1);
-        }
-        else if (actions[i] == 2){
-            printf("Dzień w przód\n");
-            Lesson__laterDay(lesson1);
-        }
-        else if (actions[i] == 3){
-            printf("Termin  w tył\n");
-            Lesson__earlierTime(lesson1, timelimitspnczw, timelimitspt);
-        }
-        else if (actions[i] == 4){
-            printf("Termin w przód\n");
-            Lesson__laterTime(lesson1, timelimitspnczw, timelimitspt);
-        }
-    }
-
-    printf("Po uwzględnieniu przesunięć: \n       %s\n", Lesson__toString(lesson1));
-
-
-    Term__destroy(term1);
-    Term__destroy(term2);
-    Term__destroy(term3);
-    Time__destroy(timelimitspt);
-    Time__destroy(timelimitspnczw);
-    Lesson__destroy(lesson1);
-
-    return 0;
-}
-
-
-
-
-
-
-
-
