@@ -175,8 +175,8 @@ void List__print(struct Node **list){
 
     struct Node *current;
     char *dayNames[] = {"Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela"};
-    if (list == NULL){
-        printf("Coś nie działa (print)\n");
+    if (*list == NULL){
+        printf("Lista jest pusta (print)\n");
     }
 
     for (current = *list; current != NULL; current = current->next)

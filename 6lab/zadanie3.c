@@ -35,7 +35,7 @@ void *Stack__destroy (int *stack){
 }
 
 
-void Stack__push (int *stack, int number, int stacksize){
+void Stack__push (int *stack, char number, int stacksize){
 
     if (stack == NULL){
         fprintf(stderr, "Stos nie istnieje (push)\n");
@@ -118,28 +118,85 @@ void Stack__print(int *stack, int stacksize) {
 int main() {
 
     int *stack = NULL;
-    int stacksize = 3;
 
-    Stack__destroy(stack); // Wypisuje: "Stos nie istnieje"
-    stack = Stack__create(3); // Utworzenie stosu o rozmiarze 3
-    Stack__push(stack, 3, stacksize); // Dodanie liczby 3 na stos
-    Stack__push(stack, 5, stacksize);
-    Stack__push(stack, 2, stacksize);
-    Stack__push(stack, 4, stacksize); // Przekraczamy rozmiar stosu — funkcja nie powinna na to pozwolić
-    Stack__print(stack, stacksize); // Funkcja powinna wypisać:
-    // 2
-    // 5
-    // 3
-    printf("%d\n", Stack__pop(stack, stacksize)); // Wypisuje 2
-    Stack__print(stack, stacksize); // Funkcja powinna wypisać:
-    // 5
-    // 3
-    printf("%d\n", Stack__pop(stack, stacksize)); // Wypisuje 5
-    printf("%d\n", Stack__pop(stack, stacksize)); // Wypisuje 3
+//    Stack__destroy(stack); // Wypisuje: "Stos nie istnieje"
+//    Stack__push(stack, 3, stacksize); // Dodanie liczby 3 na stos
+//    Stack__push(stack, 5, stacksize);
+//    Stack__push(stack, 2, stacksize);
+//    Stack__push(stack, 4, stacksize); // Przekraczamy rozmiar stosu — funkcja nie powinna na to pozwolić
+//    Stack__print(stack, stacksize); // Funkcja powinna wypisać:
+//    // 2
+//    // 5
+//    // 3
+//    printf("%d\n", Stack__pop(stack, stacksize)); // Wypisuje 2
+//    Stack__print(stack, stacksize); // Funkcja powinna wypisać:
+//    // 5
+//    // 3
+//    printf("%d\n", Stack__pop(stack, stacksize)); // Wypisuje 5
+//    printf("%d\n", Stack__pop(stack, stacksize)); // Wypisuje 3
+
+
+    char *ciag_znakow = "\\\\xyz/2\\\\z///";
+//    char *ciag_znakow = "\\xyz/";
+//    char *ciag_znakow = "\\\\xyz//";
+
+    int stacksize = strlen(ciag_znakow);
+    char curchar;
+    char nextchar;
+    stack = Stack__create(stacksize); // Utworzenie stosu o rozmiarze strlen(ciag_znakow)
+    int flag = 0;
+
+
+    for (int i = 0; i < strlen(ciag_znakow); ++i) {
+
+        Stack__push(stack, (int)ciag_znakow[i], stacksize);
+
+    }
+
+    printf("Stos: \n\n");
+    Stack__print(stack, stacksize);
+    printf("\n\n");
+    int previous;
+    int current;
+
+
+
+    for (int i = 0; i < strlen(ciag_znakow); ++i) {
+//        current = Stack__pop(stack, stacksize);
+        if (stack[i] == '\\'){
+//            Stack__push(stack, 1, stacksize);
+            if (stack[i+1] == '\\' && i != (strlen(ciag_znakow)-1)){
+                flag = 1;
+            }
+
+        }
+        if (stack[i] == '/'){
+//            Stack__pop(stack, stacksize);
+            if (i != (strlen(ciag_znakow)-1) && stack[i+1] != '/'){
+                flag = 0;
+            }
+        }
+        else {
+            Stack__pop(stack, stacksize);
+        }
+
+    }
+    Stack__print(stack, stacksize);
+    if (flag == 1){
+        printf("Znaleziono zduplikowane \\/\n");
+    }
+    else{
+        printf("Nie znaleziono zduplikowanych \\/\n");
+    }
+
+
+
+
+
 
     int liczba = Stack__pop(stack, stacksize); // Próbujemy zdjąć wartość z pustego stosu  — funkcja nie powinna na to pozwolić — powinna zwrócić wartość specjalną, na przykład INT_MIN
     Stack__destroy(stack); // Likwidacja stosu
-    Stack__destroy(stack); // Wypisuje: "Stos nie istnieje"
+//    Stack__destroy(stack); // Wypisuje: "Stos nie istnieje"
 
     return 0;
 }
