@@ -43,8 +43,6 @@ char* int_to_char(int numb){
 
     for (int i = 0; i < integers; ++i) {
 
-
-
     }
 
 }
