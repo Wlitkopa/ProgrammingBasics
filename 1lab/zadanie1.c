@@ -12,19 +12,18 @@ int main(){
     int tempn;
     int i = 1;
     int length = 0;
-    int power;
     int intsum = 0;
     int lastdigit;
     int templength;
     printf("Podaj liczbę: ");
     scanf("%d", &n);
     length = (int)floorf(log10f((float)n)) + 1;
-    printf("Liczba cyfr w n: %d \n", length);
+    printf("Liczba cyfr w n: %d\n", length);
     tempn = n;
     templength = length;
     while(templength > 0){
         lastdigit = tempn%10;
-        printf("Last digit: %d \n", lastdigit);
+        printf("Last digit: %d\n", lastdigit);
         intsum = intsum + powf(lastdigit, length);
         printf("intsum: %d \n", intsum);
         tempn = tempn - lastdigit;
@@ -38,7 +37,6 @@ int main(){
     }
     else{
         printf("%d nie jest liczbą Armstronga \n", n);
-
     }
 
 
