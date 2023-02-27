@@ -327,9 +327,7 @@ int main(int argc, char **argv) {
 
 
 
-
 // Tworzę wątki dla wersji drugiej
-
     if (ver == 2){
 
         pthread_t th[threads];
@@ -369,8 +367,9 @@ int main(int argc, char **argv) {
     }
 
 
-
-
+// Tworzę wątki dla wersji trzeciej
+// if (ver == 3) {
+//    }
 
 
 // Zwalniam pamięć i zamykam pliki
